@@ -1,0 +1,31 @@
+<div class="container d-flex flex-column align-items-center">
+  <h1>store</h1>
+  <div class="d-flex flex-sm-wrap justify-content-center ">
+    @for (p of this.prolist; track p ) {
+
+
+      <div appShadow class="card m-2" style="width: 18rem;">
+        <div class="card-body d-flex flex-column">
+          <img src="{{p.imageUrl}}" class="img-fluid  h-60 w-54 rounded-5 mb-3" alt="...">
+          <h5 class="card-title " style="color: burlywood;">{{p.name}}</h5>
+          <p class="card-text">{{p.description}}</p>
+          <p>Price : {{p.price}}</p>
+          <p class="card-text">avilable : {{p.quantity}}</p>
+
+          <span class="badge bg-primary rounded-pill align-self-center">{{ count.value }}</span>
+
+          <input #count type="range" class="form-range" min="1" [max]="p.quantity" step="1" id="customRange3" >
+          <button href="#" class="btn btn-primary  align-self-center w-50" [disabled]="p.quantity === 0" (click)="buyit(p, count.value)" >BUY</button>
+        </div>
+      </div>
+
+    }
+
+
+  </div>
+  <h1 class=>Total Price: {{totalprice|currency :"USD"}}</h1>
+</div>
+
+
+
+

@@ -1,29 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input, Output,OnChanges,EventEmitter, output } from '@angular/core';
 import { Iorder } from './Iorder';
 import { ShadowDirective } from '../directive/shadow.directive';
 import { CurrencyPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
 
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css'],
-  imports: [ ShadowDirective,CurrencyPipe ]
+  imports: [ ShadowDirective,CurrencyPipe,FormsModule,RouterModule ]
 })
-export class OrderComponent {
+export class OrderComponent implements OnChanges {
 
-  prolist:Iorder[]=[];
+  prolist:Iorder[];
+  FilteratedList:Iorder[];
   totalprice:number;
-  count
+  @Input() SendCatID:number=0;
+  @Input() SendCatName:string="";
+  @Output() SendedTotalPrice = new EventEmitter<number>();
+  count:number;
   buyit( p:Iorder, count:any){
     this.totalprice += p.price*count;
+    this.SendedTotalPrice.emit(this.totalprice)
     p.quantity -= count;
   }
 
 
   constructor() {
     this.count = 0;
-    this.totalprice = 0;
     this.prolist=[
       {
         "id": 1,
@@ -174,7 +181,24 @@ export class OrderComponent {
 
     ]
 
+    this.totalprice = 0;
+    this.FilteratedList = this.prolist;
 
+    // OpenProuductDetails(id: number) {
+    //   this.router.navigateByUrl(['/products/'+ id]);
+    // }
+
+  }
+
+
+  FilteratedByCatID() {
+    if (this.SendCatName ==="")  {
+      this.FilteratedList = this.prolist
+    }
+    this.FilteratedList = this.prolist.filter((i) => i.category === this.SendCatName)
+  }
+  ngOnChanges(): void {
+    this.FilteratedByCatID()
   }
 
 

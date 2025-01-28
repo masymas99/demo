@@ -14,7 +14,7 @@ SelectedCatID:string;
 catlist:ICategory[];
 price:number;
   constructor() {
-  this.SelectedCatID = "Clothing";
+  this.SelectedCatID = "";
   this.price = 0;
 
   this.catlist = [
